@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Saarthi Seva Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+      color: #1f2937;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    nav {
+      background: linear-gradient(to right, #1e3a8a, #3b82f6);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    nav .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    nav a:hover, nav a:focus {
+      background: #2563eb;
+      transform: scale(1.05);
+    }
+    header {
+      position: relative;
+      text-align: center;
+      padding: 140px 20px 80px;
+      background: url('https://images.unsplash.com/photo-1507438222021-044127a49b48?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
+      color: white;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(30, 58, 138, 0.7);
+      z-index: 0;
+    }
+    header h1, header p, header .cta-button {
+      position: relative;
+      z-index: 1;
+    }
+    #animated-heading {
+      font-size: 3.5rem;
+      font-weight: 900;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    }
+    #animated-heading span {
+      opacity: 0;
+      display: inline-block;
+      transform: translateY(20px);
+      animation: fadeInUpBounce 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes fadeInUpBounce {
+      0% { opacity: 0; transform: translateY(20px); }
+      60% { opacity: 1; transform: translateY(-10px); }
+      80% { transform: translateY(5px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-top: 24px;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      background: linear-gradient(to right, #2563eb, #1e40af);
+    }
+    section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    section h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 24px;
+    }
+    section p {
+      font-size: 1.2rem;
+      color: #4b5563;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    #services ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 24px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #services li {
+      padding: 16px;
+      font-size: 1.2rem;
+      color: #1e3a8a;
+      font-weight: 600;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    #services li:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    #services li svg {
+      width: 24px;
+      height: 24px;
+      fill: #3b82f6;
+    }
+    #stats {
+      background: white;
+      padding: 40px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    .stat-box {
+      flex: 1 1 200px;
+      text-align: center;
+    }
+    .stat-box h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+    .stat-box p {
+      font-size: 1rem;
+      color: #4b5563;
+    }
+    #testimonials {
+      background: #f9fafb;
+      padding: 40px 20px;
+      border-radius: 12px;
+    }
+    .testimonial-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .testimonial-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 24px;
+      width: 300px;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+    .testimonial-card p {
+      font-size: 1rem;
+      color: #4b5563;
+      margin-bottom: 12px;
+    }
+    .testimonial-card h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+    .rating {
+      color: #facc15;
+    }
+    #team .team-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 40px;
+    }
+    .team-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 24px;
+      width: 280px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+    .team-card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+    .team-card p {
+      font-size: 1rem;
+      color: #4b5563;
+    }
+    .team-card a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .team-card a:hover {
+      color: #2563eb;
+    }
+    #contact .contact-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-top: 16px;
+      transition: all 0.3s ease;
+    }
+    #contact .contact-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    footer {
+      background: linear-gradient(to right, #1e3a8a, #3b82f6);
+      color: white;
+      text-align: center;
+      padding: 32px 20px;
+      margin-top: 80px;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 768px) {
+      #animated-heading {
+        font-size: 2.5rem;
+      }
+      section h2 {
+        font-size: 2rem;
+      }
+      .team-card, .testimonial-card {
+        width: 90%;
+      }
+      .stats-container {
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="#about" aria-label="About Saarthi Seva">About Platform</a>
+      <a href="#services" aria-label="Our Services">Services</a>
+      <a href="#team" aria-label="Our Team">Team</a>
+      <a href="login.php" aria-label="Login to Platform">Login</a>
+      <a href="#contact" aria-label="Contact Us">Contact</a>
+    </div>
+  </nav>
+
+  <header class="animate__animated animate__fadeIn">
+    <h1 id="animated-heading"></h1>
+    <p class="text-xl font-semibold">Your Trusted Ride & Help Companion in Rural and Urban India</p>
+    <a href="login.php" class="cta-button animate__animated animate__bounceIn animate__delay-1s" onmouseover="triggerConfetti()">Join Now</a>
+  </header>
+
+  <section id="about" class="animate__animated animate__fadeInUp">
+    <h2>About Saarthi Seva</h2>
+    <p>
+      Saarthi Seva is a community-powered platform connecting people across rural and urban India for ride-sharing and essential assistance.
+      Whether you're offering a ride by bike, car, or traveller, or seeking help with medicine or deliveries, we make it seamless and reliable.
+      Our mission is to empower communities with safe, affordable, and accessible transportation and support, driven by user ratings and real-time updates.
+    </p>
+    <img src="./uploads/image.jpg" alt="Community ride-sharing" class="mt-6 rounded-lg shadow-lg mx-auto max-w-md">
+  </section>
+
+  <section id="services" class="animate__animated animate__fadeInUp">
+    <h2>Our Services</h2>
+    <ul>
+      <li onclick="window.location.href='login.php'">
+        <svg viewBox="0 0 24 24"><path d="M21 3H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14H4v-2h8v2zm5-4H4v-2h13v2zm0-4H4V7h13v2z"/></svg>
+        Ride-sharing across rural and urban areas (bike, car, traveller).
+      </li>
+      <li onclick="window.location.href='login.php'">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4z"/></svg>
+        Post and find rides effortlessly with real-time updates.
+      </li>
+      <li onclick="window.location.href='login.php'">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14a4 4 0 1 1 4-4 4 4 0 0 1-4 4z"/></svg>
+        Request essentials like medicines and daily goods.
+      </li>
+      <li onclick="window.location.href='login.php'">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm3.59 5.59L10 13.17l-2.59-2.58L6 12l4 4 7-7z"/></svg>
+        Community-rated system for safety and reliability.
+      </li>
+      <li onclick="window.location.href='login.php'">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        Simple and accessible interface for all users.
+      </li>
+    </ul>
+  </section>
+
+  <section id="stats" class="animate__animated animate__fadeInUp">
+    <h2>Our Impact</h2>
+    <div class="stats-container">
+      <div class="stat-box">
+        <h3 class="stat-counter" data-target="10000">0</h3>
+        <p>Rides Completed</p>
+      </div>
+      <div class="stat-box">
+        <h3 class="stat-counter" data-target="5000">0</h3>
+        <p>Active Users</p>
+      </div>
+      <div class="stat-box">
+        <h3 class="stat-counter" data-target="200">0</h3>
+        <p>Areas Served</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="animate__animated animate__fadeInUp">
+    <h2>What Our Users Say</h2>
+    <div class="testimonial-container">
+      <div class="testimonial-card animate__animated animate__fadeInLeft">
+        <p>"Saarthi Seva made it so easy to find a ride in my village. The driver was reliable, and the app is simple to use!"</p>
+        <h4>Anita Sharma</h4>
+        <div class="rating">★★★★★</div>
+      </div>
+      <div class="testimonial-card animate__animated animate__fadeInRight">
+        <p>"I needed medicine delivered urgently, and Saarthi Seva connected me with a helper in minutes. Amazing service!"</p>
+        <h4>Rahul Patil</h4>
+        <div class="rating">★★★★☆</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="animate__animated animate__fadeInUp">
+    <h2>Our Team</h2>
+    <div class="team-container">
+      <div class="team-card animate__animated animate__fadeInLeft">
+        <h3>Pavan Mali</h3>
+        <p><strong>Backend Developer</strong></p>
+        <p>Email: <a href="mailto:pavanmali0281@gmail.com" aria-label="Email Pavan Mali">pavanmali0281@gmail.com</a></p>
+        <p>Contact: <a href="tel:+917249830281" aria-label="Call Pavan Mali">+91 72498 30281</a></p>
+        <p>College: Marathwada Mitra Mandal's College of Engineering, Pune</p>
+      </div>
+      <div class="team-card animate__animated animate__fadeInRight">
+        <h3>Siddhi Pisal</h3>
+        <p><strong>Frontend Developer</strong></p>
+        <p>Email: <a href="mailto:pisalsiddhi646@gmail.com" aria-label="Email Siddhi Pisal">pisalsiddhi646@gmail.com</a></p>
+        <p>Contact: <a href="tel:+917666182876" aria-label="Call Siddhi Pisal">+91 76661 82876</a></p>
+        <p>College: Usha Mittal Institute of Technology, SNDT Women's University, Mumbai</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="animate__animated animate__fadeInUp">
+    <h2>Contact Us</h2>
+    <p>
+      Have questions or want to get involved? Reach out via email at
+      <a href="mailto:pavanmali0281@gmail.com" aria-label="Email Saarthi Seva">pavanmali0281@gmail.com</a> or call us at
+      <a href="tel:+917249830281" aria-label="Call Saarthi Seva">+91 72498 30281</a>.
+    </p>
+    <a href="mailto:pavanmali0281@gmail.com" class="contact-button animate__animated animate__bounceIn">Get in Touch</a>
+  </section>
+
+  <footer>
+    © 2025 Saarthi Seva Platform. All rights reserved.
+  </footer>
+
+  <script>
+    // Animate header text
+    const headingText = "Welcome to Saarthi Seva Platform";
+    const heading = document.getElementById("animated-heading");
+    heading.innerHTML = "";
+    for (let i = 0; i < headingText.length; i++) {
+      const span = document.createElement("span");
+      span.textContent = headingText[i];
+      span.style.animationDelay = (i * 0.07) + "s";
+      heading.appendChild(span);
+    }
+
+    // Fade-in sections on scroll
+    const sections = document.querySelectorAll("section");
+    const observerOptions = { threshold: 0.15 };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate__animated", "animate__fadeInUp");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    sections.forEach(section => observer.observe(section));
+
+    // Animated counters
+    const counters = document.querySelectorAll(".stat-counter");
+    counters.forEach(counter => {
+      const updateCounter = () => {
+        const target = +counter.getAttribute("data-target");
+        const count = +counter.innerText;
+        const increment = target / 200;
+        if (count < target) {
+          counter.innerText = Math.ceil(count + increment);
+          setTimeout(updateCounter, 10);
+        } else {
+          counter.innerText = target.toLocaleString();
+        }
+      };
+      const section = counter.closest("#stats");
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          updateCounter();
+          observer.unobserve(section);
+        }
+      }, { threshold: 0.5 });
+      observer.observe(section);
+    });
+
+    // Confetti on CTA hover
+    function triggerConfetti() {
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.8 }
+      });
+    }
+  </script>
+</body>
+</html>
